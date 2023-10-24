@@ -10,7 +10,6 @@ def get_database():
 
     if 'projects' not in db.list_collection_names():
         db.create_collection('projects')
-
     return db
 
 def add_user(username, password):

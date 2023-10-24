@@ -13,7 +13,7 @@ function App() {
   }
 
     return (
-      <div class = 'App'>
+      <div className = 'App'>
         {
           currentForm == "login"? <Login onFormSwitch = {toggleForm}/> : <Register onFormSwitch = {toggleForm}/> //check if state is login, if no go to register
         }

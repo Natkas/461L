@@ -6,9 +6,52 @@ export const Register = (props) => {
   const [pass, setPass] = useState('');
   const [name, setName] = useState('');
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const {name, email, pass} = this.state;
+  //   console.log(name, email, pass);
+
+  //   fetch('http://localhost:3000/register', {
+  //     method: 'POST',
+  //     crossDomain: true,
+  //     headers: 
+  //       {
+  //          'Content-Type': 'application/json',
+  //           'Accept': 'application/json',
+  //           'Access-Control-Allow-Origin': '*',
+  //       },
+  //     body: JSON.stringify({
+  //       email: email,
+  //       password: pass,
+  //       name: name
+  //     })
+  //   }).then((res) => res.json())
+  //   .then((data) => {
+  //     console.log(data, 'userRegister');
+  //   });
+  // }
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email);
+    console.log(name, email, pass); // Access state directly, no need for this.state
+
+    fetch('http://localhost:3000/register', {
+      method: 'POST',
+      crossDomain: true,
+      headers: 
+        {
+           'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        },
+      body: JSON.stringify({
+        email: email,
+        password: pass,
+        name: name
+      })
+    }).then((res) => res.json())
+    .then((data) => {
+      console.log(data, 'userRegister');
+    });
   }
 
   return (
@@ -18,9 +61,9 @@ export const Register = (props) => {
       <form className='register-form' onSubmit = {handleSubmit}>
         <label>Full name</label>
         <input value={name} onChange={(e) => setName(e.target.value)} name='name' id='name' placeholder='Name'/>
-        <label for = 'email'> Email</label>
+        <label htmlFor = 'email'> Email</label>
         <input value = {email} onChange={(e) => setEmail(e.target.value)} type='youremail@gmail.com' placeholder='Email' id='email' name='email' />
-        <label for = 'password'> Password</label>
+        <label htmlFor = 'password'> Password</label>
         <input value = {pass} onChange={(e) => setPass(e.target.value)} type='password' placeholder='Password' id='password' name='password'/>
         <button type = 'Submit'>Log In</button>
       </form>
