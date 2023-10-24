@@ -8,7 +8,36 @@ export const Login = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email);
+    // const {email, pass} = this.state;
+    console.log(email, pass);
+
+    fetch('http://localhost:3000/login-user', {
+      method: 'POST',
+      crossDomain: true,
+      headers: 
+        {
+           'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            // 'Access-Control-Allow-Origin': '*',
+        },
+      body: JSON.stringify({
+        email: email,
+        password: pass
+      })
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data, 'userLogin');
+      // Handle success, e.g., redirect the user
+    })
+    .catch((error) => {
+      console.error(error);
+      // Handle error, e.g., show an error message to the user
+    });
   }
 
   return (
