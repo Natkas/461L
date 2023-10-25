@@ -33,6 +33,14 @@ export const Login = (props) => {
     .then((data) => {
       console.log(data, 'userLogin');
       // Handle success, e.g., redirect the user
+      if(data.status == 'User logged in'){
+        alert ('You are logged in');
+        console.log('we are after alert but before token')
+        window.localStorage.setItem('token', data.data);
+        console.log('we are after token')
+        window.location.href = "./Projects";
+        console.log('we are after redirect')
+      }
     })
     .catch((error) => {
       console.error(error);
