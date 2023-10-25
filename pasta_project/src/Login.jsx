@@ -7,12 +7,19 @@ export const Login = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const db = await fetch('/get_database', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
     const response = await fetch('/get_user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: email }),
+      body: JSON.stringify({ username: email, password: pass }),
     });
 
     const user = await response.json();

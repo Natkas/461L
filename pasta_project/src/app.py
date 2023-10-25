@@ -23,6 +23,11 @@ def route_add_project():
     add_project(name, description, amount_available, amount_checked_out, owner, members)
     return jsonify({'message': 'Project added successfully'})
 
+@app.route('/get_database', methods=['GET'])
+def route_get_databases():
+    db = get_database()
+    return jsonify({'message': 'Database connected'})
+
 @app.route('/get_users', methods=['GET'])
 def route_get_users():
     users = get_users()
