@@ -1,7 +1,10 @@
 import './App.css';
 import { Login } from './Login.jsx';
 import { Register } from './Register.jsx';
+import Projects from './Projects';
 import React, {useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 
 function App() {
@@ -13,11 +16,13 @@ function App() {
   }
 
     return (
-      <div className = 'App'>
-        {
-          currentForm == "login"? <Login onFormSwitch = {toggleForm}/> : <Register onFormSwitch = {toggleForm}/> //check if state is login, if no go to register
-        }
-      </div>
+      <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/Projects" element ={<Projects />} />
+      </Routes>
+    </Router>
     );
 }
  

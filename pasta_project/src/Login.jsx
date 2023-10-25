@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import './App.css';
 
 //props is how parents send functions to chilren 
 export const Login = (props) => {
@@ -59,7 +60,7 @@ export const Login = (props) => {
         <input value = {pass} onChange={(e) => setPass(e.target.value)} type='youremail@gmail.com ' placeholder='Password' id='password' name='password'/>
         <button type = 'Submit'>Log In</button>
       </form>
-      <button onClick={() => props.onFormSwitch('register')}>You can register here</button>
+      <button onClick={() => window.location.href=('/register')}>You can register here</button>
     </div>
   )
 }
