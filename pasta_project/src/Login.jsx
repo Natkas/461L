@@ -19,7 +19,7 @@ export const Login = (props) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: email, password: pass }),
+      body: JSON.stringify({ username: email }),
     });
 
     const user = await response.json();
