@@ -39,7 +39,7 @@ export const Login = (props) => {
         console.log('we are after alert but before token')
         window.localStorage.setItem('token', data.data);
         console.log('we are after token')
-        window.location.href = "./Projects";
+        window.location.href = "./Hardware";
         console.log('we are after redirect')
       }
     })

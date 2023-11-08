@@ -2,6 +2,7 @@ import './App.css';
 import { Login } from './Login.jsx';
 import { Register } from './Register.jsx';
 import Projects from './Projects';
+import {Hardware} from './Hardware.jsx';
 import React, {useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/Projects" element ={<Projects />} />
+        <Route path="/Hardware" element ={<Hardware />} />
       </Routes>
     </Router>
     );

@@ -6,10 +6,11 @@ function Projects() {
   const [description, setDescription] = useState('');
   const [projectID, setProjectID] = useState('');
 
+  //This one handles creating a new project (writing in the projects database)
   const handleSubmit = (e) => {
     e.preventDefault();
     // handle form submission here
-    fetch('http://localhost:3000/register', {
+    fetch('http://localhost:3000/projects', {
       method: 'POST',
       crossDomain: true,
       headers: 
@@ -19,15 +20,16 @@ function Projects() {
             // 'Access-Control-Allow-Origin': '*',
         },
       body: JSON.stringify({
-        // email: email,
-        // password: pass,
-        // name: name
+      
         token: window.localStorage.getItem('token'),
       })
     }).then((res) => res.json())
     .then((data) => {
-      console.log(data, 'userData');
+      console.log(data, 'projectCreate');
     });
+  }
+  //This one handles checking if the project exists
+  const handleSubmitCheck = (e) => {
   }
 
   return (
@@ -46,7 +48,7 @@ function Projects() {
       </div>
       <div className = 'column'>
         <h2>Access An Existing Project</h2>
-        <form className = 'existing-project-form'  onSubmit = {handleSubmit}>
+        <form className = 'existing-project-form'  onSubmit = {handleSubmitCheck}>
           <label>ProjectID</label>
           <input value={projectID} onChange={(e) => setProjectID(e.target.value)} name='projectID' id='projectID' placeholder='ProjectID'/>
           <button type = 'Submit'>Access Project</button>
