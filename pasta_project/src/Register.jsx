@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 
 export const Register = (props) => {
@@ -9,34 +9,43 @@ export const Register = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(name, email, pass); // Access state directly, no need for this.state
-
+  
     fetch('http://localhost:3000/register', {
       method: 'POST',
       crossDomain: true,
-      headers: 
-        {
-           'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-        },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
       body: JSON.stringify({
         email: email,
         password: pass,
-        name: name
+        name: name,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
       })
-    }).then((res) => res.json())
-    .then((data) => {
-      console.log(data, 'userRegister');
-      if(data.status == 'User registered'){
-        alert ('You are registered');
-        console.log('we are after alert but before token')
-        window.localStorage.setItem('token', data.data);
-        console.log('we are after token')
-        window.location.href = "./Projects";
-        console.log('we are after redirect')
-      }
-    });
-  }
+      .then((data) => {
+        console.log(data, 'userRegister');
+        if (data.status === 'User registered') {
+          alert('You are registered');
+          console.log('we are after alert but before token');
+          window.localStorage.setItem('token', data.data);
+          console.log('we are after token');
+          window.location.href = './Projects';
+          console.log('we are after redirect');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+  
 
   return (
     <div className='auth-form-container'>

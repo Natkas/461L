@@ -15,8 +15,8 @@ const mongoUrl = "mongodb+srv://project_second:project_second123@cluster0.ishovx
 
 mongoose.connect(mongoUrl, {
     useNewUrlParser: true,
-    // useUnifiedTopology: true,
-    // useCreateIndex: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 }).then(() => {
     console.log("Mongodb connected");
 }).catch((err) => {
@@ -48,22 +48,20 @@ app.post("/register", async (req, res) => {
 
 
 app.post("/login-user", async (req, res) => {
-    const { name, email, pass } = req.body;
+    const { email, pass } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
         return res.status(400).send({ error: 'User not found' });
     }
 
-    if (await bcrypt.compare(pass, user.pass)){
-        const token = jwt.sign({}, JWT_SECRET);
-        if(res.status(201)){
-            return res.json({status: 'User logged in', data: token})
-        } else {
-            res.send({status: 'Error', error: 'Invalid password'});
-        }
+    if (await bcrypt.compare(pass, user.pass)) {
+        const token = jwt.sign({ email: user.email }, JWT_SECRET);
+        return res.json({ status: 'User logged in', data: token });
+    } else {
+        return res.send({ status: 'Error', error: 'Invalid password' });
     }
-})
+});
 
 
 app.post("/projects", async (req, res) => {
@@ -77,7 +75,7 @@ app.post("/projects", async (req, res) => {
         User.findOne({ email: useremail }).then((data) => {
             res.send({status: 'User logged in', data: data});
         }).catch((err) => {
-            console.log({status: 'error', data: data} );
+            console.log({status: 'error', data: err} );
         });
 
     }
