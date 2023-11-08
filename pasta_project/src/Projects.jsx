@@ -20,6 +20,12 @@ function Projects() {
             // 'Access-Control-Allow-Origin': '*',
         },
       body: JSON.stringify({
+        //Gleb was here 
+        name: name,
+        description: description,
+        projectID: projectID,
+
+        //Gleb was here
       
         token: window.localStorage.getItem('token'),
       })
