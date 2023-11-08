@@ -107,6 +107,8 @@ export const Hardware = () => {
     // Now you can use these values as needed
     console.log(`ID: ${id}, Capacity: ${capacity}, Available: ${available}, Name: ${name}`);
   });
+
+  console.log(data[0])
   
   
   return (
