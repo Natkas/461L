@@ -28,27 +28,37 @@ const User = mongoose.model('UserInfo');
 
 
 app.post("/register", async (req, res) => {
-    const { name, email, pass } = req.body;
+    const name = req.body.name;
+    const email = req.body.email;
+    const pass = req.body.password;
 
-    const encryptedPassword = await bcrypt.hash(pass, 10);
+    if (!pass) {
+        return res.status(400).send({ error: 'Password is required'});
+    }
 
     try {
+        const encryptedPassword = await bcrypt.hash(pass, 10);
+
         const oldUser = await User.findOne({ email });
         if (oldUser) {
             return res.status(400).send({ error: 'User already exists' });
         }
 
-        await User.create({ name, email, encryptedPassword});
-            return res.send({status: 'User registered'})
+        await User.create({ name, email, pass: encryptedPassword }); // Use pass here
+
+        return res.send({ status: 'User registered' });
+    } catch (err) {
+        console.error('Error occurred during registration:', err);
+        return res.status(500).send({ error: 'Registration failed' });
     }
-    catch (err) {
-        return res.status(400).send({ error: 'Registration failed' });
-    }
-})
+});
+
 
 
 app.post("/login-user", async (req, res) => {
-    const { name, email, pass } = req.body;
+    const name = req.body.name;
+    const email = req.body.email;
+    const pass = req.body.password;
 
     const user = await User.findOne({ email });
     if (!user) {
