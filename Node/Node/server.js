@@ -44,7 +44,7 @@ app.post("/register", async (req, res) => {
             return res.status(400).send({ error: 'User already exists' });
         }
 
-        await User.create({ name, email, pass: encryptedPassword }); // Use pass here
+        await User.create({ name, email, pass: encryptedPassword });
 
         return res.send({ status: 'User registered' });
     } catch (err) {
@@ -56,24 +56,33 @@ app.post("/register", async (req, res) => {
 
 
 app.post("/login-user", async (req, res) => {
-    const name = req.body.name;
     const email = req.body.email;
     const pass = req.body.password;
 
-    const user = await User.findOne({ email });
-    if (!user) {
-        return res.status(400).send({ error: 'User not found' });
+    if (!pass) {
+        return res.status(400).json({ error: 'Password is required' });
     }
 
-    if (await bcrypt.compare(pass, user.pass)){
-        const token = jwt.sign({}, JWT_SECRET);
-        if(res.status(201)){
-            return res.json({status: 'User logged in', data: token})
-        } else {
-            res.send({status: 'Error', error: 'Invalid password'});
-        }
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.status(400).json({ error: 'User not found' });
     }
-})
+
+    try {
+        const isPasswordValid = await bcrypt.compare(pass, user.pass);
+
+        if (isPasswordValid) {
+            const token = jwt.sign({}, JWT_SECRET);
+            return res.status(201).json({ status: 'User logged in', data: token });
+        } else {
+            return res.status(401).json({ status: 'Error', error: 'Invalid password' });
+        }
+    } catch (error) {
+        console.error('Error occurred during password comparison:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 
 app.post("/projects", async (req, res) => {
