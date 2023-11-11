@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import './App.css';
+import './Register.css';
 
 
 export const Register = (props) => {
@@ -51,7 +53,7 @@ export const Register = (props) => {
         <input value = {pass} onChange={(e) => setPass(e.target.value)} type='password' placeholder='Password' id='password' name='password'/>
         <button type = 'Submit'>Log In</button>
       </form>
-      <button className='b-link' onClick={() => window.location.href=('/login')}>If you already have an account login here</button>
+      <button className='b-link' onClick={() => window.location.href=('/login-user')}>If you already have an account login here</button>
     </div>
   )
 }

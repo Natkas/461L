@@ -20,22 +20,68 @@ function Projects() {
             // 'Access-Control-Allow-Origin': '*',
         },
       body: JSON.stringify({
-        //Gleb was here 
+        
         name: name,
         description: description,
         projectID: projectID,
 
-        //Gleb was here
       
         token: window.localStorage.getItem('token'),
       })
     }).then((res) => res.json())
     .then((data) => {
       console.log(data, 'projectCreate');
+      if(data.status == 'Project created'){
+        alert ('Your project has been created');
+        
+        window.localStorage.setItem('token', data.data);
+       
+        window.location.href = "./Hardware";
+
+      if (console.error == 'Project already exists'){
+        alert ('ProjectID already exists');
+        
+      }
+      
+    }
     });
+    
   }
   //This one handles checking if the project exists
   const handleSubmitCheck = (e) => {
+    e.preventDefault();
+    // handle form submission here
+    fetch('http://localhost:3000/projects-login', {
+      method: 'POST',
+      crossDomain: true,
+      headers: 
+        {
+           'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            // 'Access-Control-Allow-Origin': '*',
+        },
+      body: JSON.stringify({
+        
+        projectID: projectID,
+
+      
+        token: window.localStorage.getItem('token'),
+      })
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data, 'projectCheck');
+      if(data.status == 'Project exists'){
+        alert ('Your project exists, you can manage your hardware now');
+        
+        window.localStorage.setItem('token', data.data);
+       
+        window.location.href = "./Hardware";
+        
+      }
+    });
+    
+    
   }
 
   return (
