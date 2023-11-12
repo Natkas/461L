@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './Hardware.css';
+
 
 export const Hardware = () => {
   const [data, setData] = useState([]);
@@ -15,6 +17,7 @@ export const Hardware = () => {
   const [inputValue2, setInputValue2] = useState(''); // State for input value of item 2
   const [inputCheckOutValue1, setInputCheckOutValue1] = useState(''); // State for checking out item 1
   const [inputCheckOutValue2, setInputCheckOutValue2] = useState(''); // State for checking out item 2
+  const projectID = new URLSearchParams(window.location.search).get('projectID');
 
 
   useEffect(() => {
@@ -34,7 +37,7 @@ export const Hardware = () => {
   }, []);
 
   // Function to update the database
-  const updateDatabase = (itemNumber, amount) => {
+  const updateDatabase = (itemNumber, amount, projectID) => {
     // Make a POST request to your server to update the database
     fetch('http://localhost:3000/update', {
       method: 'POST',
@@ -44,12 +47,14 @@ export const Hardware = () => {
       body: JSON.stringify({
         itemNumber, // Specify which item to update (1 or 2)
         amount, // Amount to add to available and capacity
+        projectID,
       }),
     })
       .then((response) => response.json())
       .then((updatedData) => {
         // Update your component state with the response from the server if needed
         console.log('Database updated successfully', updatedData);
+        console.log('Database updated successfully', projectID);
       })
       .catch((error) => {
         console.error('Error updating the database', error);
@@ -62,7 +67,7 @@ export const Hardware = () => {
     if (!isNaN(amount)) {
       setAvailable1(available1 + amount);
       setInputValue1(''); // Clear the input field
-      updateDatabase('b', amount); // Update the database with item 1 and the amount
+      updateDatabase('b', amount,projectID); // Update the database with item 1 and the amount
     }
   };
 
@@ -71,8 +76,9 @@ export const Hardware = () => {
     if (!isNaN(amount) && available1 >= amount) {
       setAvailable1(available1 - amount);
       setInputCheckOutValue1(''); // Clear the input field
-      updateDatabase('b', -amount); // Use a negative amount to indicate a checkout
+      updateDatabase('b', -amount,projectID); // Use a negative amount to indicate a checkout
     }
+    else(alert('You do not have enough items to check out'));
   };
 
 
@@ -82,7 +88,7 @@ export const Hardware = () => {
     if (!isNaN(amount)) {
       setAvailable2(available2 + amount);
       setInputValue2(''); // Clear the input field
-      updateDatabase('c', amount); // Update the database with item 2 and the amount
+      updateDatabase('c', amount,projectID); // Update the database with item 2 and the amount
     }
   };
 
@@ -92,22 +98,27 @@ export const Hardware = () => {
     if (!isNaN(amount) && available2 >= amount) {
       setAvailable2(available2 - amount);
       setInputCheckOutValue2(''); // Clear the input field
-      updateDatabase('c', -amount); // Use a negative amount to indicate a checkout
+      updateDatabase('c', -amount,projectID); // Use a negative amount to indicate a checkout
+
     }
+    else(alert('You do not have enough items to check out'));
   };
 
   const handleLogOut = () => {
+    console.log("Log out button clicked");
     window.localStorage.removeItem('token');
-    window.location.href = "./login-user";
+    window.history.replaceState({}, document.title, '/login-user');
+    window.location.reload();
   }
 
+
   return (
-    <><div className="row">
-      <h2>Hardware Management</h2>
+    <div className="row">
+      <h2 className='header'>Hardware Management of project: {projectID}</h2>
       <div className="column">
-        <h2>{name1}</h2>
-        <label>Capacity: {capacity1}</label>
-        <label>Available: {available1}</label>
+        <h3 className='small-header'>{name1}</h3>
+        <label className='label'>Capacity: {capacity1}</label>
+        <label className='label'>Available: {available1}</label>
         <input
           type="text"
           placeholder="Enter amount to check in"
@@ -126,10 +137,10 @@ export const Hardware = () => {
         </button>
       </div>
       <div className="column">
-        <h2>{name2}</h2>
-        <label>Capacity: {capacity2}</label>
-        <label>Available: {available2}</label>
-        <input
+        <h3 className='small-header'>{name2}</h3>
+        <label className='label'>Capacity: {capacity2}</label>
+        <label className='label'>Available: {available2}</label>
+        <input className='input-check-in'
           type="text"
           placeholder="Enter amount to check in"
           value={inputValue2}
@@ -137,7 +148,7 @@ export const Hardware = () => {
         <button type="button" onClick={handleCheckIn2}>
           Check In
         </button>
-        <input
+        <input className="input-check-out"
           type="text"
           placeholder="Enter amount to check out"
           value={inputCheckOutValue2}
@@ -146,12 +157,14 @@ export const Hardware = () => {
           Check Out
         </button>
       </div>
-    </div>
-    <div className="row">
-        <button type="button" onClick={handleLogOut}>
+      <div className="row">
+        <button type="button" className="log-out-button" onClick={handleLogOut}>
           Log Out
         </button>
-      </div></>
-        
+        <button type="button" className="log-out-button" onClick={() => window.location.href=('/project-overview')}>
+          Go to your project overview
+        </button>
+      </div>
+    </div>
   );
 };

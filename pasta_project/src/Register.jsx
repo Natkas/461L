@@ -10,8 +10,7 @@ export const Register = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, email, pass); // Access state directly, no need for this.state
-
+    console.log(name, email, pass); 
     fetch('http://localhost:3000/register', {
       method: 'POST',
       crossDomain: true,

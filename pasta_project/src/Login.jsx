@@ -50,17 +50,31 @@ export const Login = (props) => {
   }
 
   return (
-    <div className='auth-form-container' >
+    <div className='auth-form-container'>
       <h2>Login</h2>
-      
-      <form className='login-form' onSubmit = {handleSubmit}>
-        <label htmlFor = 'email'> Email</label>
-        <input value = {email} onChange={(e) => setEmail(e.target.value)} type='youremail@gmail.com ' placeholder='Email' id='email' name='email' />
-        <label htmlFor = 'password'> Password</label>
-        <input value = {pass} onChange={(e) => setPass(e.target.value)} type='youremail@gmail.com ' placeholder='Password' id='password' name='password'/>
-        <button type = 'Submit'>Log In</button>
+      <form className='login-form' onSubmit={handleSubmit}>
+        <label htmlFor='email'> Email</label>
+        <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type='text'
+          placeholder='Email'
+          id='email'
+          name='email'
+        />
+        <label htmlFor='password'> Password</label>
+        <input
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
+          type='password' 
+          placeholder='Password'
+          id='password'
+          name='password'
+        />
+        <button type='submit'>Log In</button>
       </form>
       <button onClick={() => window.location.href=('/register')}>You can register here</button>
     </div>
-  )
+  );
+  
 }
