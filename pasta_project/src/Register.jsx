@@ -13,7 +13,6 @@ export const Register = (props) => {
     console.log(name, email, pass); 
     fetch('http://localhost:3000/register', {
       method: 'POST',
-      crossDomain: true,
       headers: 
         {
            'Content-Type': 'application/json',
@@ -36,7 +35,10 @@ export const Register = (props) => {
         window.location.href = "./Projects";
         console.log('we are after redirect')
       }
-    });
+      else{
+        alert('There is an error, please review your information')
+      }
+    })
   }
 
   return (
