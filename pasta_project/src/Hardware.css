@@ -1,0 +1,33 @@
+.header {
+  text-align: center;
+  align-items: center;
+}
+
+button {
+  border-radius: 10px;
+  margin: 10px;
+  border: none;
+  padding: 10px; 
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.column {
+  flex: 50%;
+
+}
+
+.label{
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 5px;
+}
+.small-header {
+  text-align: center;
+  align-items: center;
+}
+

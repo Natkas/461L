@@ -1,0 +1,36 @@
+
+
+.row {
+    display: flex;
+    background-image: -moz-linear-gradient(79deg, #41dfff,#78b3ee 48%,#0400f5);
+  }
+  
+  .column {
+    flex: 50%;
+  }
+
+
+  .row {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .column {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+  }
+
+.label{
+  align-items: center;
+}
+
+.log-out-button{
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #61dafb;
+  color: black;
+}
+  
