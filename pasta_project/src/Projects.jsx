@@ -6,17 +6,18 @@ function Projects() {
   const [description, setDescription] = useState('');
   const [projectID, setProjectID] = useState('');
 
-  //This one handles creating a new project (writing in the projects database)
+
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    // handle form submission here
+    
     fetch('http://localhost:3000/projects', {
   method: 'POST',
   crossDomain: true,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    // 'Access-Control-Allow-Origin': '*',
+    
   },
   body: JSON.stringify({
     name: name,
@@ -41,7 +42,7 @@ function Projects() {
     
   }
   
-  //This one handles checking if the project exists
+
   const handleSubmitCheck = (e) => {
     e.preventDefault();
     fetch('http://localhost:3000/projects-login', {

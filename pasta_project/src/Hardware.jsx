@@ -13,10 +13,10 @@ export const Hardware = () => {
   const [name2, setName2] = useState('');
   const [available2, setAvailable2] = useState(0);
   const [capacity2, setCapacity2] = useState(0);
-  const [inputValue1, setInputValue1] = useState(''); // State for input value of item 1
-  const [inputValue2, setInputValue2] = useState(''); // State for input value of item 2
-  const [inputCheckOutValue1, setInputCheckOutValue1] = useState(''); // State for checking out item 1
-  const [inputCheckOutValue2, setInputCheckOutValue2] = useState(''); // State for checking out item 2
+  const [inputValue1, setInputValue1] = useState(''); 
+  const [inputValue2, setInputValue2] = useState(''); 
+  const [inputCheckOutValue1, setInputCheckOutValue1] = useState('');
+  const [inputCheckOutValue2, setInputCheckOutValue2] = useState(''); 
   const projectID = new URLSearchParams(window.location.search).get('projectID');
 
 
@@ -38,21 +38,21 @@ export const Hardware = () => {
 
   // Function to update the database
   const updateDatabase = (itemNumber, amount, projectID) => {
-    // Make a POST request to your server to update the database
+  
     fetch('http://localhost:3000/update', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        itemNumber, // Specify which item to update (1 or 2)
-        amount, // Amount to add to available and capacity
+        itemNumber, 
+        amount, 
         projectID,
       }),
     })
       .then((response) => response.json())
       .then((updatedData) => {
-        // Update your component state with the response from the server if needed
+       
         console.log('Database updated successfully', updatedData);
         console.log('Database updated successfully', projectID);
       })
@@ -61,13 +61,19 @@ export const Hardware = () => {
       });
   };
 
-  // Event handler for updating available and capacity for item 1
+
   const handleCheckIn1 = () => {
     const amount = parseInt(inputValue1, 10);
-    if (!isNaN(amount)) {
+    if (!isNaN(amount)&& amount+available1 <= capacity1) {
       setAvailable1(available1 + amount);
-      setInputValue1(''); // Clear the input field
-      updateDatabase('b', amount,projectID); // Update the database with item 1 and the amount
+      setInputValue1(''); 
+      updateDatabase('b', amount,projectID); 
+    }
+    if (isNaN(amount)) {
+      alert('Please enter a number');
+    }
+    if (amount+available1 > capacity1) {
+      alert('You do not have enough space to check in');
     }
   };
 
@@ -75,20 +81,32 @@ export const Hardware = () => {
     const amount = parseInt(inputCheckOutValue1, 10);
     if (!isNaN(amount) && available1 >= amount) {
       setAvailable1(available1 - amount);
-      setInputCheckOutValue1(''); // Clear the input field
-      updateDatabase('b', -amount,projectID); // Use a negative amount to indicate a checkout
+      setInputCheckOutValue1(''); 
+      updateDatabase('b', -amount,projectID); 
     }
-    else(alert('You do not have enough items to check out'));
+    if (isNaN(amount)) {
+      alert('Please enter a number');
+    }
+    if (available1 < amount) {
+      alert('You do not have enough items to check out');
+    }
+    
   };
 
 
-  // Event handler for updating available and capacity for item 2
+  
   const handleCheckIn2 = () => {
     const amount = parseInt(inputValue2, 10);
-    if (!isNaN(amount)) {
+    if (!isNaN(amount) && amount+available2 <= capacity2) {
       setAvailable2(available2 + amount);
-      setInputValue2(''); // Clear the input field
-      updateDatabase('c', amount,projectID); // Update the database with item 2 and the amount
+      setInputValue2(''); 
+      updateDatabase('c', amount,projectID); 
+    }
+    if (isNaN(amount)) {
+      alert('Please enter a number');
+    }
+    if (amount+available2 > capacity2) {
+      alert('You do not have enough space to check in');
     }
   };
 
@@ -101,7 +119,12 @@ export const Hardware = () => {
       updateDatabase('c', -amount,projectID); // Use a negative amount to indicate a checkout
 
     }
-    else(alert('You do not have enough items to check out'));
+    if (isNaN(amount)) {
+      alert('Please enter a number');
+    }
+    if (available2 < amount) {
+      alert('You do not have enough items to check out');
+    }
   };
 
   const handleLogOut = () => {
@@ -161,7 +184,7 @@ export const Hardware = () => {
         <button type="button" className="log-out-button" onClick={handleLogOut}>
           Log Out
         </button>
-        <button type="button" className="log-out-button" onClick={() => window.location.href=('/project-overview')}>
+        <button type="button" className="log-out-button" onClick={() => window.location.href=(`./project-overview?projectID=${projectID}`)}>
           Go to your project overview
         </button>
       </div>

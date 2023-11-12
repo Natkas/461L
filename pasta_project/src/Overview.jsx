@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './Projects.css';
 
-
-
 function Overview() {
-  const [projectID, setProjectID] = useState('');
-  const [Hardwareset1, setHardwareset1] = useState('');
-  const [Hardwareset2, setHardwareset2] = useState('');
+  const [Hardwareset1, setHardwareset1] = useState(0);
+  const [Hardwareset2, setHardwareset2] = useState(0);
+  const projectID = new URLSearchParams(window.location.search).get('projectID');
+
+
 
   useEffect(() => {
-    // Fetch hardware sets when component mounts
-    fetchHardwareSets();
-  }, [projectID]); // Adding projectID as a dependency to re-fetch when it changes
-
-  const fetchHardwareSets = () => {
-    // Fetch hardware sets based on projectID
-    fetch(`http://localhost:3000/project-overview`, {
+    fetch(`http://localhost:3000/project-overview?projectID=${projectID}`, {
       method: 'GET',
       crossDomain: true,
       headers: {
@@ -23,21 +17,30 @@ function Overview() {
         'Accept': 'application/json',
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
       .then((data) => {
-        console.log(data, 'projectOverview');
+        
+        setHardwareset1(data.data.HW1)
+        setHardwareset2(data.data.HW2);
+
+        console.log(data.data.HW1, 'project overview data');
       })
       .catch((error) => {
         console.error(error);
       });
-  };
-  
+  }, [projectID]);
+ 
   const handleLogOut = () => {
     console.log("Log out button clicked");
     window.localStorage.removeItem('token');
     window.history.replaceState({}, document.title, '/login-user');
     window.location.reload();
-  }
+  };
 
   return (
     <div className='row'>
@@ -56,6 +59,3 @@ function Overview() {
 }
 
 export default Overview;
-
-
-

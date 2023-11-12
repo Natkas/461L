@@ -9,7 +9,7 @@ export const Login = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const {email, pass} = this.state;
+    
     console.log(email, pass);
 
     fetch('http://localhost:3000/login-user', {
